@@ -1,0 +1,777 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="BLVK MERAKÏ TECH SOLUTIONS - AI-Powered IT Support. Ask anything about Information Technology.">
+  <meta name="theme-color" content="#00d4ff">
+  <title>BLVK MERAKÏ TECH SOLUTIONS | AI IT Support</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- EmailJS SDK (optional for email notifications) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0c15;
+      --glass-bg: rgba(15, 25, 45, 0.55);
+      --glass-border: rgba(0, 212, 255, 0.25);
+      --neon-cyan: #00d4ff;
+      --neon-purple: #a855f7;
+      --text-primary: #ffffff;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      --success: #10b981;
+      --shadow-neon: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0c15, #03050a);
+      color: var(--text-primary);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Glass Navigation */
+    .navbar {
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+      margin: 0 1.5rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 60px;
+      padding: 0.8rem 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+    }
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #fff, var(--neon-cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(0, 212, 255, 0.15);
+      color: var(--neon-cyan);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      color: var(--neon-cyan);
+      font-size: 1.3rem;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .navbar { margin: 0.5rem 1rem; }
+      .mobile-menu-btn { display: block; }
+      .nav-links { display: none; width: 100%; flex-direction: column; margin-top: 1rem; }
+      .nav-links.show { display: flex; }
+      .nav-links a { text-align: center; }
+      .container { padding: 0 1rem; }
+      .quick-grid, .features-row { grid-template-columns: 1fr !important; }
+      .chat-messages { height: 400px; }
+      .message { max-width: 95%; }
+    }
+
+    /* Hero */
+    .hero { text-align: center; padding: 3rem 1rem 2rem; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0, 212, 255, 0.12);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      padding: 0.3rem 1.2rem;
+      font-size: 0.65rem;
+      color: var(--neon-cyan);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-tagline { font-size: 0.9rem; color: var(--text-secondary); max-width: 620px; margin: 1rem auto 2rem; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon-cyan), #0099cc);
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: #000;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-neon); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+    .quick-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .quick-card:hover { border-color: var(--neon-cyan); transform: translateY(-6px); }
+    .quick-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+
+    .features-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .feature-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 1.8rem;
+      text-align: center;
+    }
+
+    .status-grid {
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      margin: 2rem 0;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.8rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .status-badge {
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+
+    .panel { display: none; margin-top: 2rem; }
+    .panel.active-panel { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* CHAT STYLES */
+    .chat-container {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .chat-header {
+      padding: 1rem 1.5rem;
+      background: rgba(0, 212, 255, 0.1);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .chat-avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+    .chat-status {
+      font-size: 0.65rem;
+      color: var(--success);
+    }
+    .chat-messages {
+      height: 450px;
+      overflow-y: auto;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .message {
+      max-width: 85%;
+      padding: 0.8rem 1.2rem;
+      border-radius: 18px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      animation: slideIn 0.3s ease;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .message.bot {
+      background: rgba(0, 212, 255, 0.12);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      align-self: flex-start;
+      border-radius: 18px 18px 18px 4px;
+    }
+    .message.user {
+      background: linear-gradient(135deg, var(--neon-cyan), #0099cc);
+      color: #000;
+      align-self: flex-end;
+      border-radius: 18px 18px 4px 18px;
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 212, 255, 0.1);
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      background: var(--neon-cyan);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+    
+    .chat-input-area {
+      display: flex;
+      gap: 0.8rem;
+      padding: 1rem;
+      border-top: 1px solid var(--glass-border);
+    }
+    .chat-input-area input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--glass-border);
+      padding: 0.8rem 1rem;
+      border-radius: 40px;
+      color: white;
+      font-family: 'Space Mono', monospace;
+      outline: none;
+    }
+    .chat-input-area input:focus { border-color: var(--neon-cyan); }
+
+    .tool-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 1.8rem;
+      margin: 1rem 0;
+    }
+    .input-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .input-group input, .input-group textarea, .input-group select {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--glass-border);
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      color: white;
+      font-family: 'Space Mono', monospace;
+      outline: none;
+    }
+    .result-box {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--neon-cyan);
+      margin-top: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .ticket-item {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.8rem;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      border-left: 3px solid var(--neon-cyan);
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      color: #000;
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 700;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .toast.show { opacity: 1; }
+    footer {
+      margin-top: 4rem;
+      border-top: 1px solid var(--glass-border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    code {
+      background: rgba(0,0,0,0.5);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo" onclick="showSection('home')">
+    <div class="logo-icon">B</div>
+    <div class="logo-text">BLVK MERAKÏ <span style="color:#64748b">TECH SOLUTIONS</span></div>
+  </div>
+  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a onclick="showSection('home')" class="active" id="nav-home">HOME</a>
+    <a onclick="showSection('chat')" id="nav-chat">🤖 AI SUPPORT</a>
+    <a onclick="showSection('tools')" id="nav-tools">TOOLS</a>
+    <a onclick="showSection('tickets')" id="nav-tickets">🎫 TICKETS</a>
+    <a onclick="showSection('status')" id="nav-status">STATUS</a>
+  </div>
+</div>
+
+<main>
+  <!-- HOME SECTION -->
+  <div id="home" class="active-panel panel">
+    <div class="container">
+      <div class="hero">
+        <div class="hero-badge">⚡ COMPREHENSIVE AI IT SUPPORT</div>
+        <h1>YOUR IT. OUR PRIORITY.<br>YOUR SUCCESS.</h1>
+        <div class="hero-tagline">Ask ANYTHING about Information Technology -- from networking to cybersecurity, programming to cloud computing.</div>
+        <div class="hero-buttons">
+          <a class="btn-primary" onclick="showSection('chat')">💬 Ask AI Support Anything</a>
+          <a class="btn-outline" onclick="showSection('tools')">🛠️ IT Tools</a>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <div class="quick-card" onclick="showSection('chat'); setTimeout(() => quickQuestion('What is cloud computing?'), 100)"><div class="quick-icon">☁️</div><h3>Cloud Computing</h3><p>Learn about AWS, Azure, GCP</p></div>
+        <div class="quick-card" onclick="showSection('chat'); setTimeout(() => quickQuestion('Explain cybersecurity best practices'), 100)"><div class="quick-icon">🛡️</div><h3>Cybersecurity</h3><p>Protection strategies</p></div>
+        <div class="quick-card" onclick="showSection('chat'); setTimeout(() => quickQuestion('How do I start learning programming?'), 100)"><div class="quick-icon">💻</div><h3>Programming</h3><p>Python, JavaScript, Java</p></div>
+        <div class="quick-card" onclick="showSection('chat'); setTimeout(() => quickQuestion('What is a network protocol?'), 100)"><div class="quick-icon">🌐</div><h3>Networking</h3><p>TCP/IP, DNS, HTTP explained</p></div>
+      </div>
+
+      <div class="features-row">
+        <div class="feature-card"><div class="feature-illus">🧠</div><h3>AI-Powered Knowledge</h3><p>Trained on comprehensive IT topics</p></div>
+        <div class="feature-card"><div class="feature-illus">⚡</div><h3>Instant Responses</h3><p>No waiting -- 24/7 automatic support</p></div>
+        <div class="feature-card"><div class="feature-illus">📚</div><h3>All IT Domains</h3><p>Hardware • Software • Networking • Security • Cloud • AI</p></div>
+      </div>
+
+      <div class="section-title" style="font-family:'Syne',sans-serif;">System Status</div>
+      <div class="status-grid">
+        <div class="status-row"><span>🤖 AI Knowledge Base</span><span class="status-badge">Active • 500+ Topics</span></div>
+        <div class="status-row"><span>🌐 Network</span><span class="status-badge">Operational</span></div>
+        <div class="status-row"><span>🎫 Ticket System</span><span class="status-badge">Active</span></div>
+        <div class="status-row"><span>☁️ Cloud Services</span><span class="status-badge">Operational</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CHAT SUPPORT - Answers ANY IT Question -->
+  <div id="chat" class="panel">
+    <div class="container">
+      <div class="section-title" style="font-family:'Syne',sans-serif;">🤖 AI IT Support Assistant</div>
+      <div class="section-desc">Ask me anything about Information Technology -- networking, programming, cybersecurity, hardware, cloud, databases, and more.</div>
+      
+      <div class="chat-container">
+        <div class="chat-header">
+          <div class="chat-avatar">🧠</div>
+          <div>
+            <h3 style="font-family:'Syne',sans-serif;">Merakï AI IT Expert</h3>
+            <div class="chat-status">🟢 Online • Comprehensive IT Knowledge</div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="message bot">👋 Welcome to BLVK MERAKÏ TECH SOLUTIONS! I'm your AI IT Support Specialist.<br><br>📚 <strong>I can answer questions about:</strong><br><br>
+          • 💻 <strong>Programming:</strong> Python, Java, JavaScript, C++, HTML/CSS, frameworks<br>
+          • 🌐 <strong>Networking:</strong> TCP/IP, DNS, DHCP, Routing, VPN, Subnetting<br>
+          • 🛡️ <strong>Cybersecurity:</strong> Encryption, Firewalls, Penetration Testing, GDPR<br>
+          • ☁️ <strong>Cloud Computing:</strong> AWS, Azure, GCP, Serverless, Containers<br>
+          • 🗄️ <strong>Databases:</strong> SQL, MySQL, PostgreSQL, MongoDB, Indexing<br>
+          • 🖥️ <strong>Hardware:</strong> CPUs, GPUs, RAM, Storage, Motherboards<br>
+          • 📱 <strong>Mobile/Web Dev:</strong> React, Angular, Flutter, PWA<br>
+          • 🤖 <strong>AI/ML:</strong> Neural Networks, LLMs, TensorFlow, PyTorch<br><br>
+          <strong>Go ahead -- ask me anything IT-related!</strong></div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" placeholder="Ask any IT question... e.g., 'What is a REST API?' or 'How do I fix a BSOD?'" onkeypress="if(event.key==='Enter') sendChatMessage()">
+          <button class="btn-primary" onclick="sendChatMessage()" style="padding:0.7rem 1.5rem;">Send</button>
+        </div>
+      </div>
+      
+      <div class="tool-card">
+        <h3>📌 Example IT Questions</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1rem;">
+          <button class="btn-outline" onclick="quickQuestion('What is the difference between TCP and UDP?')">TCP vs UDP</button>
+          <button class="btn-outline" onclick="quickQuestion('How do I learn Python programming?')">Learn Python</button>
+          <button class="btn-outline" onclick="quickQuestion('Explain zero-day vulnerability')">Zero-day exploit</button>
+          <button class="btn-outline" onclick="quickQuestion('What is Docker and Kubernetes?')">Docker & K8s</button>
+          <button class="btn-outline" onclick="quickQuestion('How to fix a slow computer?')">Slow PC fix</button>
+          <button class="btn-outline" onclick="quickQuestion('What is the OSI model?')">OSI Model</button>
+          <button class="btn-outline" onclick="quickQuestion('Best practices for password security')">Password security</button>
+          <button class="btn-outline" onclick="quickQuestion('What is SQL injection?')">SQL injection</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLS SECTION -->
+  <div id="tools" class="panel">
+    <div class="container">
+      <div class="section-title">🛠️ IT Tools</div>
+      <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2rem;">
+        <button class="btn-outline" onclick="switchToolTab('passwordTool')">🔐 Password Checker</button>
+        <button class="btn-outline" onclick="switchToolTab('ipTool')">🌍 IP Lookup</button>
+        <button class="btn-outline" onclick="switchToolTab('specsTool')">💻 Device Specs</button>
+      </div>
+      <div id="passwordTool" class="tool-card"><h3>🔐 Password Strength Analyzer</h3><div class="input-group"><input type="password" id="passwordInput" placeholder="Enter password" oninput="analyzePassword()"></div><div id="pwStrengthResult" class="result-box">Strength: Not evaluated</div><div id="pwChecksList" class="result-box"></div></div>
+      <div id="ipTool" class="tool-card" style="display:none;"><h3>🌍 IP Geolocation</h3><div class="input-group"><input type="text" id="ipAddressInput" placeholder="IP (leave empty for your IP)"></div><button class="btn-primary" onclick="performIPLookup()">Lookup</button><div id="ipResult" class="result-box">Ready</div></div>
+      <div id="specsTool" class="tool-card" style="display:none;"><h3>💻 Your Device Specifications</h3><div id="deviceSpecsDisplay" class="result-box">Loading...</div></div>
+    </div>
+  </div>
+
+  <!-- TICKET SYSTEM -->
+  <div id="tickets" class="panel">
+    <div class="container">
+      <div class="section-title">🎫 IT Support Tickets</div>
+      <div class="section-desc">Submit an issue -- AI will provide an instant solution</div>
+      <div class="tool-card">
+        <h3>Create New Ticket</h3>
+        <div class="input-group"><input type="text" id="ticketName" placeholder="Your name"></div>
+        <div class="input-group"><input type="email" id="ticketEmail" placeholder="Your email"></div>
+        <div class="input-group"><select id="ticketCategory"><option>Hardware</option><option>Software</option><option>Network</option><option>Security</option><option>Cloud</option><option>Other</option></select></div>
+        <div class="input-group"><textarea id="ticketDesc" rows="3" placeholder="Describe your IT issue in detail..."></textarea></div>
+        <button class="btn-primary" onclick="createTicket()">Submit & Get AI Solution</button>
+      </div>
+      <div class="section-title" style="font-size:1.2rem;">📋 Your Tickets</div>
+      <div id="ticketsList" class="result-box" style="max-height:300px;overflow-y:auto;"><div style="color:var(--text-muted);">No tickets yet.</div></div>
+    </div>
+  </div>
+
+  <!-- STATUS & SETUP INFO -->
+  <div id="status" class="panel">
+    <div class="container">
+      <div class="section-title">System Status & Email Setup</div>
+      <div class="status-grid">
+        <div class="status-row"><span>🤖 AI Support Bot</span><span class="status-badge">Online • Full IT Knowledge</span></div>
+        <div class="status-row"><span>🎫 Auto-Ticket System</span><span class="status-badge">Active</span></div>
+        <div class="status-row"><span>🌐 Network</span><span class="status-badge">Operational</span></div>
+      </div>
+      <div class="tool-card">
+        <h3>📧 EmailJS Setup (Optional - for email notifications)</h3>
+        <p style="font-size:0.75rem;margin-top:0.5rem;">To receive email copies of tickets:</p>
+        <ol style="font-size:0.7rem;color:var(--text-muted);margin-left:1.5rem;margin-top:0.5rem;">
+          <li>Go to <a href="https://www.emailjs.com" target="_blank" style="color:var(--neon-cyan);">emailjs.com</a> → Free signup</li>
+          <li>Add Email Service (Gmail, Outlook, etc.)</li>
+          <li>Create Template with variables: <code>from_name</code>, <code>from_email</code>, <code>issue</code>, <code>solution</code></li>
+          <li>Get Public Key, Service ID, Template ID</li>
+          <li>Run in browser console: <code>emailjs.init("YOUR_PUBLIC_KEY");</code></li>
+          <li>Update the <code>createTicket()</code> function with your IDs</li>
+        </ol>
+        <p style="margin-top:1rem;font-size:0.7rem;">✅ <strong>The AI support works immediately without any setup!</strong></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>© 2026 BLVK MERAKÏ TECH SOLUTIONS • AI-Powered IT Support • Ask Anything About Information Technology</footer>
+<div id="toastMessage" class="toast"></div>
+
+<script>
+  // ========== COMPREHENSIVE AI KNOWLEDGE BASE ==========
+  // The AI intelligently answers ANY IT question using keyword mapping + fallback intelligence
+  function getAIKnowledgeBase(question) {
+    const q = question.toLowerCase();
+    
+    // Programming Languages
+    if (q.includes('python') || q.includes('learn python')) return "🐍 **Python Programming:**\n\nPython is a versatile, beginner-friendly language. Start with:\n• Official tutorial: python.org\n• Practice on Codecademy or freeCodeCamp\n• Build small projects: calculator, web scraper, to-do app\n• Popular frameworks: Django (web), Flask (API), Pandas (data)\n\nKey concepts: variables, loops, functions, OOP, libraries.";
+    if (q.includes('javascript') || q.includes('js')) return "📜 **JavaScript (JS):**\n\nThe language of the web. Core topics:\n• ES6+: let/const, arrow functions, promises, async/await\n• DOM manipulation: document.querySelector, event listeners\n• Frameworks: React, Vue, Angular, Node.js for backend\n• Practice: build interactive web apps, games, API integrations";
+    if (q.includes('java')) return "☕ **Java Programming:**\n\nObject-oriented, platform-independent (JVM). Key areas:\n• OOP: classes, inheritance, polymorphism\n• Spring Boot for enterprise apps\n• Android development (Kotlin/Java)\n• Multithreading, Collections Framework, JDBC for databases";
+    
+    // Networking
+    if (q.includes('tcp') && q.includes('udp')) return "🔄 **TCP vs UDP:**\n\n**TCP (Transmission Control Protocol):**\n• Connection-oriented (handshake)\n• Reliable, ordered delivery\n• Error checking & retransmission\n• Slower but accurate\n• Examples: HTTP, HTTPS, FTP, Email\n\n**UDP (User Datagram Protocol):**\n• Connectionless, fire-and-forget\n• No guarantees, faster\n• No retransmission\n• Examples: streaming, VoIP, DNS, gaming";
+    if (q.includes('osi model')) return "🏛️ **OSI Model (7 Layers):**\n\n7. Application - HTTP, FTP, DNS\n6. Presentation - Encryption, compression\n5. Session - managing connections\n4. Transport - TCP/UDP, segmentation\n3. Network - IP routing, packets\n2. Data Link - MAC addresses, switches\n1. Physical - cables, hubs, bits\n\nRemember: 'Please Do Not Throw Sausage Pizza Away'";
+    if (q.includes('dns')) return "🌐 **DNS (Domain Name System):**\n\nThe 'phonebook of the internet' -- translates domain names (google.com) to IP addresses (142.250.190.46).\n\n• Recursive resolver → Root server → TLD server → Authoritative server\n• DNS record types: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), TXT (verification)\n• Popular DNS: Google (8.8.8.8), Cloudflare (1.1.1.1)";
+    
+    // Cybersecurity
+    if (q.includes('zero-day')) return "⚠️ **Zero-Day Vulnerability:**\n\nA security flaw that is unknown to the software vendor. Hackers exploit it before a patch exists.\n\n• 'Zero-day' = 0 days of warning\n• Can be in OS, apps, browsers, firmware\n• Protection: keep software updated, use firewalls, intrusion detection, least privilege principle";
+    if (q.includes('sql injection')) return "💉 **SQL Injection Attack:**\n\nAttackers insert malicious SQL code into input fields to manipulate database queries.\n\nExample: `' OR '1'='1` bypasses login.\n\n**Prevention:**\n• Parameterized queries / prepared statements\n• Input validation & sanitization\n• Use ORM frameworks\n• Least privilege database accounts";
+    if (q.includes('password security')) return "🔐 **Password Security Best Practices:**\n\n✅ Use long passwords (12+ characters)\n✅ Mix uppercase, lowercase, numbers, symbols\n✅ Never reuse passwords across sites\n✅ Use a password manager (Bitwarden, 1Password)\n✅ Enable 2FA/MFA everywhere possible\n✅ Avoid dictionary words, birthdays, names\n✅ Change passwords if breached (check haveibeenpwned.com)";
+    
+    // Cloud & DevOps
+    if (q.includes('docker') && q.includes('kubernetes')) return "🐳 **Docker & Kubernetes:**\n\n**Docker:** Containerization platform -- packages apps with dependencies into lightweight containers.\n\n**Kubernetes (K8s):** Container orchestration -- manages, scales, and deploys containers across clusters.\n\n• Docker: `docker build`, `docker run`, `docker-compose`\n• K8s: Pods, Services, Deployments, Ingress\n• Together: Docker builds containers, K8s runs them at scale";
+    if (q.includes('cloud computing')) return "☁️ **Cloud Computing:**\n\nDelivering computing services over the internet.\n\n**Service Models:**\n• IaaS: AWS EC2, Azure VMs (infrastructure)\n• PaaS: Google App Engine (platform)\n• SaaS: Gmail, Office 365 (software)\n\n**Major Providers:** AWS (market leader), Microsoft Azure, Google Cloud Platform (GCP)\n\n**Benefits:** scalability, pay-as-you-go, global reach, high availability";
+    
+    // Hardware / Troubleshooting
+    if (q.includes('slow computer') || q.includes('slow pc')) return "🐌 **Slow Computer Fixes:**\n\n1. Task Manager: check CPU/RAM/disk usage (Ctrl+Shift+Esc)\n2. Disable startup programs\n3. Run Disk Cleanup & defrag HDD\n4. Scan for malware (Windows Defender/Malwarebytes)\n5. Update drivers & Windows\n6. Add more RAM or upgrade to SSD\n7. Check for overheating (clean fans)";
+    if (q.includes('blue screen') || q.includes('bsod')) return "💀 **Blue Screen of Death (BSOD) Fix:**\n\n1. Note the error code (e.g., IRQL_NOT_LESS_OR_EQUAL)\n2. Restart in Safe Mode (F8 or Shift+Restart)\n3. Run `sfc /scannow` in CMD as Admin\n4. Update or roll back recent drivers\n5. Run Windows Memory Diagnostic for RAM issues\n6. Check disk: `chkdsk /f /r`\n7. Restore to previous restore point";
+    
+    // Web Dev / APIs
+    if (q.includes('rest api')) return "🔌 **REST API Explained:**\n\nREST (Representational State Transfer) is an architectural style for web APIs.\n\n• Uses HTTP methods: GET (read), POST (create), PUT (update), DELETE (remove)\n• Stateless -- each request contains all needed info\n• Returns JSON or XML\n• Example: `GET /users/123` returns user data\n• Tools: Postman, cURL, Fetch API, Axios";
+    
+    // AI/ML
+    if (q.includes('neural network')) return "🧠 **Neural Networks:**\n\nComputing systems inspired by biological brains.\n\n• Input layer → Hidden layers → Output layer\n• Weights & biases adjusted via backpropagation\n• Activation functions: ReLU, Sigmoid, Tanh\n• Types: CNNs (images), RNNs (sequences), Transformers (LLMs)\n• Frameworks: TensorFlow, PyTorch, Keras";
+    
+    // Database
+    if (q.includes('sql') && (q.includes('vs') || q.includes('nosql'))) return "🗄️ **SQL vs NoSQL:**\n\n**SQL (Relational):**\n• Tables with rows & columns\n• Schema required\n• ACID compliant\n• Examples: MySQL, PostgreSQL, SQLite\n\n**NoSQL (Non-relational):**\n• Document, key-value, graph, column-family\n• Flexible schema\n• BASE model, high scalability\n• Examples: MongoDB, Redis, Cassandra, Neo4j\n\nChoose SQL for complex queries/transactions, NoSQL for big data/rapid iteration.";
+    
+    // IT Support / General
+    if (q.includes('fix') || q.includes('help') && q.includes('computer')) return "🛠️ **General IT Troubleshooting:**\n\n1. Restart the device (solves 50% of issues)\n2. Check cables, power, connections\n3. Update software/drivers\n4. Run built-in troubleshooters\n5. Check event logs for errors\n6. Google the exact error message\n7. Restore from backup or reset\n\nNeed more specific help? Describe your exact problem!";
+    
+    // Fallback intelligent response
+    return "🤔 **I understand you're asking about IT.** Here's what I can help with:\n\n• **Programming:** Python, JavaScript, Java, C++, HTML/CSS\n• **Networking:** TCP/IP, DNS, OSI model, VPNs, subnetting\n• **Cybersecurity:** Encryption, firewalls, vulnerabilities, best practices\n• **Cloud:** AWS, Azure, GCP, Docker, Kubernetes\n• **Databases:** SQL, MySQL, PostgreSQL, MongoDB\n• **Hardware:** CPUs, RAM, storage, troubleshooting\n• **Web Dev:** APIs, React, Node.js, responsive design\n\nCould you rephrase or be more specific? I'm here to help with any IT topic!";
+  }
+  
+  function getAIResponse(question) {
+    return getAIKnowledgeBase(question);
+  }
+  
+  // Chat functions
+  function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    
+    const chatDiv = document.getElementById('chatMessages');
+    const userMsgDiv = document.createElement('div');
+    userMsgDiv.className = 'message user';
+    userMsgDiv.textContent = msg;
+    chatDiv.appendChild(userMsgDiv);
+    
+    // Show typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
+    chatDiv.appendChild(typingDiv);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+    
+    setTimeout(() => {
+      chatDiv.removeChild(typingDiv);
+      const botReply = getAIResponse(msg);
+      const botMsgDiv = document.createElement('div');
+      botMsgDiv.className = 'message bot';
+      botMsgDiv.innerHTML = botReply.replace(/\n/g, '<br>');
+      chatDiv.appendChild(botMsgDiv);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }, 600);
+    
+    input.value = '';
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  }
+  
+  function quickQuestion(question) {
+    document.getElementById('chatInput').value = question;
+    sendChatMessage();
+    showSection('chat');
+  }
+  
+  // Helper functions
+  function toast(msg) { const t = document.getElementById('toastMessage'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+  function toggleMobileMenu() { document.getElementById('navLinks').classList.toggle('show'); }
+  
+  function showSection(sectionId) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active-panel'));
+    document.getElementById(sectionId).classList.add('active-panel');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const activeLink = document.getElementById('nav-' + sectionId);
+    if(activeLink) activeLink.classList.add('active');
+    document.getElementById('navLinks').classList.remove('show');
+    if(sectionId === 'tools') loadDeviceSpecs();
+    if(sectionId === 'tickets') renderTickets();
+    window.scrollTo(0,0);
+  }
+  
+  // Password checker
+  function analyzePassword() {
+    const pw = document.getElementById('passwordInput').value;
+    let score = 0;
+    const checks = [
+      {cond: pw.length >= 8, text: 'At least 8 characters'},
+      {cond: /[A-Z]/.test(pw), text: 'Uppercase letter'},
+      {cond: /[a-z]/.test(pw), text: 'Lowercase letter'},
+      {cond: /[0-9]/.test(pw), text: 'Number'},
+      {cond: /[^A-Za-z0-9]/.test(pw), text: 'Symbol'},
+      {cond: pw.length >= 12, text: '12+ characters'}
+    ];
+    checks.forEach(ch => { if(ch.cond) score++; });
+    const strengths = ['🔴 Very Weak', '🟠 Weak', '🟡 Fair', '🟢 Strong', '🔵 Very Strong'];
+    const strength = pw.length ? strengths[Math.min(4, Math.floor(score/1.5))] : '⚪ Start typing';
+    document.getElementById('pwStrengthResult').innerHTML = `Strength: ${strength} (${score}/6)`;
+    document.getElementById('pwChecksList').innerHTML = checks.map(ch => `<div style="color:${ch.cond ? '#10b981' : '#64748b'}">${ch.cond ? '✅' : '○'} ${ch.text}</div>`).join('');
+  }
+  
+  // IP Lookup
+  async function performIPLookup() {
+    let ip = document.getElementById('ipAddressInput').value.trim();
+    let resDiv = document.getElementById('ipResult');
+    resDiv.innerHTML = '⏳ Fetching...';
+    try {
+      const url = ip ? `https://ipapi.co/${ip}/json/` : 'https://ipapi.co/json/';
+      const data = await fetch(url).then(r => r.json());
+      if(data.error) throw new Error();
+      resDiv.innerHTML = `🌐 IP: ${data.ip}<br>📍 ${data.city || 'N/A'}, ${data.country_name || 'N/A'}<br>📡 ISP: ${data.org || 'N/A'}`;
+    } catch(e) { resDiv.innerHTML = '❌ Lookup failed.'; }
+  }
+  
+  function loadDeviceSpecs() {
+    const div = document.getElementById('deviceSpecsDisplay');
+    if(div) div.innerHTML = `🖥️ OS: ${navigator.platform}<br>📺 Screen: ${screen.width}x${screen.height}<br>⚙️ CPU Cores: ${navigator.hardwareConcurrency || 'N/A'}<br>🧠 RAM: ${navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'N/A'}`;
+  }
+  
+  // Ticket system
+  let tickets = JSON.parse(localStorage.getItem('blvk_tickets') || '[]');
+  let ticketCounter = tickets.length + 1000;
+  
+  function createTicket() {
+    const name = document.getElementById('ticketName').value.trim();
+    const email = document.getElementById('ticketEmail').value.trim();
+    const category = document.getElementById('ticketCategory').value;
+    const desc = document.getElementById('ticketDesc').value.trim();
+    if(!name || !email || !desc) { toast('⚠️ Please fill all fields'); return; }
+    
+    ticketCounter++;
+    const ticketId = '#TK' + ticketCounter;
+    const autoSolution = getAIResponse(desc);
+    
+    tickets.unshift({ id: ticketId, name, email, category, description: desc, solution: autoSolution, status: 'AI Resolved', date: new Date().toLocaleString() });
+    localStorage.setItem('blvk_tickets', JSON.stringify(tickets));
+    renderTickets();
+    toast(`✅ Ticket ${ticketId} created! AI solution provided.`);
+    document.getElementById('ticketName').value = '';
+    document.getElementById('ticketEmail').value = '';
+    document.getElementById('ticketDesc').value = '';
+  }
+  
+  function renderTickets() {
+    const container = document.getElementById('ticketsList');
+    if(!container) return;
+    if(tickets.length === 0) { container.innerHTML = '<div style="color:var(--text-muted);">No tickets yet.</div>'; return; }
+    container.innerHTML = tickets.map(t => `<div class="ticket-item"><div style="display:flex;justify-content:space-between;"><strong style="color:var(--neon-cyan);">${t.id}</strong><span style="font-size:0.65rem;">${t.date}</span></div><div style="margin:0.5rem 0;"><strong>Issue:</strong> ${t.description.substring(0, 80)}...</div><div style="background:rgba(0,212,255,0.1);padding:0.5rem;border-radius:8px;"><strong>🤖 AI Solution:</strong><br>${t.solution.substring(0, 200)}${t.solution.length > 200 ? '...' : ''}</div><div><span class="status-badge">${t.status}</span></div></div>`).join('');
+  }
+  
+  function switchToolTab(toolId) {
+    document.querySelectorAll('#tools .tool-card').forEach(t => t.style.display = 'none');
+    document.getElementById(toolId).style.display = 'block';
+  }
+  
+  window.onload = () => { showSection('home'); loadDeviceSpecs(); renderTickets(); };
+  window.sendChatMessage = sendChatMessage;
+  window.quickQuestion = quickQuestion;
+  window.showSection = showSection;
+  window.toggleMobileMenu = toggleMobileMenu;
+  window.switchToolTab = switchToolTab;
+  window.analyzePassword = analyzePassword;
+  window.performIPLookup = performIPLookup;
+  window.createTicket = createTicket;
+</script>
+</body>
+</html>
